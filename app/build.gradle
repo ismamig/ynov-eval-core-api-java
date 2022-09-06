@@ -5,8 +5,10 @@ plugins {
     id 'java'
 }
 
-group = 'fr.asys'
-version = '0.0.1-SNAPSHOT'
+group 'fr.asys.starter'
+if (!version) {
+    version '0.0.1'
+}
 sourceCompatibility = '17'
 
 repositories {
