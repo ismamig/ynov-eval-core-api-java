@@ -1,0 +1,3 @@
+@Library('castle-ci-jenkins-pipeline-groovy-sharedlibrary@master') _
+
+Gradle6Java13App()
