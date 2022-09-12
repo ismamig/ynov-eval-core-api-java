@@ -36,9 +36,6 @@ dependencies {
     testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4'
     testImplementation 'org.openapitools:jackson-databind-nullable:0.2.3'
 
-    // Apache commons
-    testImplementation 'org.apache.commons:commons-collections4:4.4'
-
     testImplementation 'fr.asys.common:common-security-adapter-lib-java:2.1.0'
 }
 
