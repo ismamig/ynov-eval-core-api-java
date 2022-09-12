@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'name.remal.check-updates' version '1.5.0'
+}
+
+group 'fr.asys.starter'
+if (!version) {
+    version '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+dependencies {
+    // Cucumber
+    testImplementation 'io.cucumber:cucumber-java:7.6.0'
+    testImplementation 'io.cucumber:cucumber-junit:7.6.0'
+
+    // Junit
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.9.0'
+
+    // DI Framework
+    testImplementation 'io.cucumber:cucumber-picocontainer:7.6.0'
+
+    testImplementation 'fr.asys.starter:starter-cleher-core-client-java:0.0.1-feat-client-init-f249ccdf'
+
+    // Jackson
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4'
+    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4'
+    testImplementation 'org.openapitools:jackson-databind-nullable:0.2.3'
+
+    testImplementation 'fr.asys.common:common-security-adapter-lib-java:2.1.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
