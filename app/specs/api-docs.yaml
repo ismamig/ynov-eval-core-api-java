@@ -1,0 +1,113 @@
+openapi: 3.0.1
+info:
+  title: Starter Clément HERVE - taskmanager api
+  description: A list of the available endpoints to manage your tasks
+  version: "1.2"
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: task-deletion
+  description: Pour supprimer les tâches
+- name: task-get
+  description: Pour récupérer les tâches
+- name: task-update
+  description: Pour mettre à jour des tâches
+- name: task-creation
+  description: Pour créer des tâches
+paths:
+  /api/v1/tasks/{id}:
+    put:
+      tags:
+      - task-update
+      description: Mettre à jour des tâches
+      operationId: updateTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskDto'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TaskDto'
+    delete:
+      tags:
+      - task-deletion
+      description: Supprimer une tâche grace à son identifiant
+      operationId: deleteTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int32
+  /api/v1/tasks:
+    get:
+      tags:
+      - task-get
+      description: Récupérer les tâches existantes
+      operationId: getTasks
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskDto'
+    post:
+      tags:
+      - task-creation
+      description: Créer des tâches
+      operationId: createTask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/TaskDto'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskDto'
+components:
+  schemas:
+    TaskDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        task:
+          type: string
+        done:
+          type: boolean

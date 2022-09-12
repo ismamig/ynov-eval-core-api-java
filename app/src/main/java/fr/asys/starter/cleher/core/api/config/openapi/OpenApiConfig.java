@@ -14,6 +14,6 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI().components(new Components())
                 .info(new Info().title("Starter Clément HERVE - taskmanager api")
-                        .description("A list of the available endpoints to manage your tasks"));
+                        .description("A list of the available endpoints to manage your tasks").version("1.2"));
     }
 }
