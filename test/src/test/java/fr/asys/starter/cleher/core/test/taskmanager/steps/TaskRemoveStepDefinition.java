@@ -1,7 +1,10 @@
 package fr.asys.starter.cleher.core.test.taskmanager.steps;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
+import java.util.Map;
 
 import fr.asys.starter.cleher.core.client.controllers.TaskCreationApi;
 import fr.asys.starter.cleher.core.client.controllers.TaskDeletionApi;
@@ -9,7 +12,7 @@ import fr.asys.starter.cleher.core.client.controllers.TaskGetApi;
 import fr.asys.starter.cleher.core.client.invoker.ApiException;
 import fr.asys.starter.cleher.core.client.model.TaskDto;
 import fr.asys.starter.cleher.core.test.taskmanager.steps.common.TaskManagerTestContext;
-import io.cucumber.datatable.DataTable;
+import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -21,28 +24,42 @@ public class TaskRemoveStepDefinition {
         this.taskManagerTestContext = taskManagerTestContext;
     }
 
-    @Given("les taches suivantes sont présentes dans le système")
-    public void les_taches_suivantes_sont_presentes(DataTable data) throws ApiException {
+    @DataTableType
+    public TaskDto taskDtoEntry(final Map<String, String> entry) {
+        final TaskDto taskDto = new TaskDto();
 
-        final List<TaskDto> tasks = new ArrayList<>();
-        tasks.add(new TaskDto());
-        tasks.get(0).id(Integer.parseInt(data.cell(1, 0)));
-        tasks.get(0).task(data.cell(1, 1));
-        tasks.get(0).done(Boolean.parseBoolean(data.cell(1, 2)));
+        final boolean isDone = Boolean.parseBoolean(entry.get("done"));
+        final String task = entry.get("task");
 
+        taskDto.done(isDone);
+        taskDto.task(task);
+
+        return taskDto;
+    }
+
+    @Given("les taches suivantes sont présente dans le système")
+    public void les_taches_suivantes_sont_presentes(final List<TaskDto> tasks) throws ApiException {
         final TaskCreationApi taskCreationApi = taskManagerTestContext.getTaskCreationApi();
-        taskCreationApi.createTask1(tasks);
-    }
+        taskCreationApi.createTask(tasks);
 
-    @When("je fais appel au endpoint des tâches pour supprimer la tâche d'id 0")
-    public void je_fais_appel_au_endpoint_pour_recuperer_les_taches(DataTable data) throws ApiException {
-        final TaskDeletionApi taskDeletionApi = taskManagerTestContext.getTaskDeletionApi();
-        taskDeletionApi.deleteTask(0);
-    }
-
-    @Then("les taches suivantes sont présentes dans le système")
-    public void je_recupere_les_taches(DataTable data) throws ApiException {
         final TaskGetApi taskGetApi = taskManagerTestContext.getTaskGetApi();
-        taskGetApi.getTasks();
+        assertTrue(taskGetApi.getTasks().size() > 0);
+    }
+
+    @When("je fais appel au endpoint des tâches pour supprimer les taches")
+    public void je_fais_appel_au_endpoint_pour_supprimer_les_taches() throws ApiException {
+        final TaskDeletionApi taskDeletionApi = taskManagerTestContext.getTaskDeletionApi();
+        final TaskGetApi taskGetApi = taskManagerTestContext.getTaskGetApi();
+
+        for (final TaskDto task : taskGetApi.getTasks()) {
+            taskDeletionApi.deleteTask(task.getId());
+        }
+    }
+
+    @Then("la tache n'est pas présente dans le système")
+    public void la_tache_est_pas_presente_dans_le_systeme() throws ApiException {
+        final TaskGetApi taskGetApi = taskManagerTestContext.getTaskGetApi();
+        assertFalse(
+                taskGetApi.getTasks().stream().map(TaskDto::getTask).anyMatch("TESTREMOVE: une tache de test"::equals));
     }
 }

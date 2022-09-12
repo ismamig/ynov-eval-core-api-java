@@ -1,6 +1,7 @@
 package fr.asys.starter.cleher.core.test.taskmanager.steps;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import fr.asys.starter.cleher.core.client.controllers.TaskCreationApi;
@@ -9,7 +10,6 @@ import fr.asys.starter.cleher.core.client.controllers.TaskUpdateApi;
 import fr.asys.starter.cleher.core.client.invoker.ApiException;
 import fr.asys.starter.cleher.core.client.model.TaskDto;
 import fr.asys.starter.cleher.core.test.taskmanager.steps.common.TaskManagerTestContext;
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -21,32 +21,29 @@ public class TaskUpdateStepDefinition {
         this.taskManagerTestContext = taskManagerTestContext;
     }
 
-    @Given("les taches suivantes sont présentes dans le système")
-    public void les_taches_suivantes_sont_presentes(DataTable data) throws ApiException {
-
-        final List<TaskDto> tasks = new ArrayList<>();
-        tasks.add(new TaskDto());
-        tasks.get(0).id(Integer.parseInt(data.cell(1, 0)));
-        tasks.get(0).task(data.cell(1, 1));
-        tasks.get(0).done(Boolean.parseBoolean(data.cell(1, 2)));
-
+    @Given("les taches suivantes existent dans le systeme")
+    public void les_taches_suivantes_sont_presentes(final List<TaskDto> tasks) throws ApiException {
         final TaskCreationApi taskCreationApi = taskManagerTestContext.getTaskCreationApi();
-        taskCreationApi.createTask1(tasks);
+        taskCreationApi.createTask(tasks);
     }
 
-    @When("je fais appel au endpoint des tâches pour mettre à jour la tâche d'id 0")
-    public void je_fais_appel_au_endpoint_pour_maj_les_taches(DataTable data) throws ApiException {
-        TaskDto task = new TaskDto();
-        task.task(data.cell(1, 0));
-        task.done(Boolean.parseBoolean(data.cell(1, 1)));
-
+    @When("je passe mes taches à done")
+    public void je_passe_mes_taches_a_done() throws ApiException {
         final TaskUpdateApi taskUpdateApi = taskManagerTestContext.getTaskUpdateApi();
-        taskUpdateApi.createTask(0, task);
+        final TaskGetApi taskGetApi = taskManagerTestContext.getTaskGetApi();
+
+        for (final TaskDto task : taskGetApi.getTasks()) {
+            task.done(true);
+            taskUpdateApi.updateTask(task.getId(), task);
+        }
     }
 
-    @Then("les taches suivantes sont présentes dans le système")
-    public void je_recupere_les_taches(DataTable data) throws ApiException {
+    @Then("toutes mes taches sont done")
+    public void toutes_mes_taches_sont_done() throws ApiException {
         final TaskGetApi taskGetApi = taskManagerTestContext.getTaskGetApi();
-        taskGetApi.getTasks();
+
+        for (TaskDto task : taskGetApi.getTasks()) {
+            assertEquals(Boolean.TRUE, task.getDone());
+        }
     }
 }

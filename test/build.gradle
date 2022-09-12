@@ -5,7 +5,9 @@ plugins {
 }
 
 group 'fr.asys.starter'
-version '1.0-SNAPSHOT'
+if (!version) {
+    version '0.0.1'
+}
 
 repositories {
     mavenCentral()
@@ -27,11 +29,7 @@ dependencies {
     // DI Framework
     testImplementation 'io.cucumber:cucumber-picocontainer:7.6.0'
 
-    // Apache
-    testImplementation 'commons-io:commons-io:2.11.0'
-    testImplementation 'org.apache.commons:commons-lang3:3.12.0'
-
-    testImplementation 'fr.asys.starter:starter-cleher-core-client-java:0.0.1-feat-client-init-2ef6d82e'
+    testImplementation 'fr.asys.starter:starter-cleher-core-client-java:0.0.1-feat-client-init-f249ccdf'
 
     // Jackson
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4'
