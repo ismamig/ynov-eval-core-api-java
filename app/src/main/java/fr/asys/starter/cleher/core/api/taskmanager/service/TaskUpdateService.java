@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.asys.starter.cleher.core.api.taskmanager.dto.TaskDto;
+import fr.asys.starter.cleher.core.api.taskmanager.mapper.TaskDtoMapper;
 import fr.asys.starter.cleher.core.api.taskmanager.repository.TaskRepository;
 
 @Service
@@ -15,8 +16,8 @@ public class TaskUpdateService {
     }
 
     @Transactional
-    public void execute(int id, TaskDto task) {
+    public void execute(final int id, final TaskDto task) {
         task.setId(id);
-        this.taskRepository.save(task);
+        this.taskRepository.save(TaskDtoMapper.TaskDtoToTask(task));
     }
 }

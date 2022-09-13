@@ -1,19 +1,18 @@
 package fr.asys.starter.cleher.core.api.taskmanager.controller.rest;
 
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import fr.asys.starter.cleher.core.api.taskmanager.controller.rest.navigation.TaskControllerUrlConstants;
 import fr.asys.starter.cleher.core.api.taskmanager.dto.TaskDto;
 import fr.asys.starter.cleher.core.api.taskmanager.service.TaskUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/v1/tasks")
-@Tag(name = "task-update", description = "Pour mettre à jour des tâches")
+@RequestMapping(TaskControllerUrlConstants.BASE)
+@Tag(name = "tasks", description = "Pour mettre à jour des tâches")
 public class TaskUpdateRestController {
     private final TaskUpdateService taskUpdateService;
 

@@ -1,10 +1,20 @@
-package fr.asys.starter.cleher.core.api.taskmanager.dto;
+package fr.asys.starter.cleher.core.api.taskmanager.model;
 
-public class TaskDto {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+@Entity
+public class Task {
+    @Id
+    @GeneratedValue()
     private int id;
     private String task;
     private boolean done;
+
+    public int getId() {
+        return id;
+    }
 
     public String getTask() {
         return task;
@@ -20,10 +30,6 @@ public class TaskDto {
 
     public void setDone(boolean done) {
         this.done = done;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public void setId(int id) {

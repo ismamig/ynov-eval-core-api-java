@@ -6,14 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import fr.asys.starter.cleher.core.api.taskmanager.controller.rest.navigation.TaskControllerUrlConstants;
 import fr.asys.starter.cleher.core.api.taskmanager.dto.TaskDto;
 import fr.asys.starter.cleher.core.api.taskmanager.service.TaskGetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/v1/tasks")
-@Tag(name = "task-get", description = "Pour récupérer les tâches")
+@RequestMapping(TaskControllerUrlConstants.BASE)
+@Tag(name = "tasks", description = "Pour récupérer les tâches")
 public class TaskGetRestController {
     private final TaskGetService taskGetService;
 

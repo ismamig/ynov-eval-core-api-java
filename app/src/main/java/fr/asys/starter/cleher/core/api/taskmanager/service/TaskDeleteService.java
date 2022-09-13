@@ -14,7 +14,7 @@ public class TaskDeleteService {
     }
 
     @Transactional
-    public void execute(int id) {
+    public void execute(final int id) {
         this.taskRepository.deleteById(id);
     }
 }

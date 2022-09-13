@@ -4,13 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import fr.asys.starter.cleher.core.api.taskmanager.controller.rest.navigation.TaskControllerUrlConstants;
 import fr.asys.starter.cleher.core.api.taskmanager.service.TaskDeleteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/v1/tasks")
-@Tag(name = "task-deletion", description = "Pour supprimer les tâches")
+@RequestMapping(TaskControllerUrlConstants.BASE)
+@Tag(name = "tasks", description = "Pour supprimer les tâches")
 public class TaskDeleteRestController {
     private final TaskDeleteService taskDeleteService;
 
