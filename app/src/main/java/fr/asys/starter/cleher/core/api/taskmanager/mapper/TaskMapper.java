@@ -6,15 +6,15 @@ import fr.asys.starter.cleher.core.api.taskmanager.model.Task;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TaskDtoMapper extends BaseMapper<TaskDto, Task> {
+public class TaskMapper extends BaseMapper<Task, TaskDto> {
 
     @Override
-    public Task map(final TaskDto taskDto) {
-        final Task task = new Task();
-        task.setId(taskDto.getId());
-        task.setTask(taskDto.getTask());
-        task.setDone(taskDto.isDone());
-        return task;
+    public TaskDto map(final Task task) {
+        final TaskDto taskDto = new TaskDto();
+        taskDto.setId(task.getId());
+        taskDto.setTask(task.getTask());
+        taskDto.setDone(task.isDone());
+        return taskDto;
     }
 
 }
