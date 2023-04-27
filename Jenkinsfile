@@ -21,7 +21,7 @@ pipeline {
   stages {
     stage('Récupération des sources') {
       steps {
-        git 'git@github.com:ismamig/ynov-eval-core-api-java.git'
+        git 'https://github.com/ismamig/ynov-eval-core-api-java.git'
       }
     }
     stage('Compilation') {
