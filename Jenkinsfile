@@ -19,11 +19,6 @@ pipeline {
   agent any
   
   stages {
-    stage('Récupération des sources') {
-      steps {
-        git 'https://github.com/ismamig/ynov-eval-core-api-java.git'
-      }
-    }
     stage('Compilation') {
       steps {
         sh 'chmod +x gradlew'
